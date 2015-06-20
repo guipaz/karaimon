@@ -1,0 +1,53 @@
+Karaimon v0.01
+- Dois karaimons fixos
+- Ataque do inimigo é aleatório
+- 2 ações: ataque normal e defesa (50% de redução de dano)
+- Informações dos karaimons em tela e dois botões de escolha
+- Log no output
+
+Karaimon v0.02
+- Escolha do karaimon do jogador (inimigo é aleatório)
+- 4 opções de ataque (somente dano) previamente cadastrados e 1 de defesa fixo
+- Ao terminar uma batalha, opção de começar outra
+- Log no canto da tela
+- Cada ataque tem um número de utilizações por batalha
+
+Karaimon v0.03
+- Inclusão de elemento aos ataques
+- Aplicação das razões de dano e defesa elementais
+
+Karaimon v0.04
+- Karaimon é escolhido no começo e continua com jogador com batalhas consecutivas
+- Experiência ao derrotar o inimigo e níveis
+- Salva a experiência e nível a cada batalha
+- Cada Karaimon possui os valores que aumenta a cada nível
+
+Karaimon v0.05
+- Aplicação dos atributos reais de Pokémon
+- Definida proporção de experiência para cada nível em escala geométrica
+- Tela inicial com opções de novo jogo (apagar anterior) e carregar jogo
+
+Karaimon v1.0
+- Escolha de uma equipe de 3 karaimons
+- Opção de escolha no começo da batalha de qual karaimon irá batalhar
+- Inimigos tem equipes aleatórias
+- Opção de troca de karaimon durante a batalha
+- Quando um karaimon desmaia, outro é escolhido
+
+Karaimon v1.1
+- 
+
+.
+.
+.
+
+Karaimon 2.0
+- Inteligência artificial no inimigo (análise de diversos pontos e escolha por probabilidade)
+
+.
+.
+.
+
+Backlog
+- Dificuldade da AI
+- Liberação do código no github
