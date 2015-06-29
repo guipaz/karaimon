@@ -8,7 +8,7 @@ Karaimon is a little project to recreate Pokémon with Unity. It is purely educa
 Me.
 
 ## Can I do it too?
-Thx but no thx. Nothing personal, but this is a project so I can learn how to use the tool properly and evolve myself in the game development process.
+Thx but no thx. Nothing personal, but this is a project so I can learn how to use the tool properly and evolve myself in the game development process, and I'm putting it in here so you can maybe learn something from it. :)
 
 ## But this is not how Pokémon works!
 Yeah, I know.
