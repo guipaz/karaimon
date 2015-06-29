@@ -91,8 +91,13 @@ public class MonSQLite : MonoBehaviour
 		List<Dictionary<string, object>> monHashes = Get (select, single);
 		foreach (Dictionary<string, object> entry in monHashes) {
 			Karaimon k = new Karaimon(entry);
-			if (k != null)
+			if (k != null) {
+				string attSelect = string.Format(SQLCreator.ATT_SELECT, k.id);
+				List<Dictionary<string, object>> attacks = Get(attSelect, false);
+				k.attacks = new AttackSheet(attacks);
+
 				monsList.Add(k);
+			}
 
 			if (single)
 				break;
@@ -114,10 +119,10 @@ public class MonSQLite : MonoBehaviour
 			for (int i = 0; i < fieldCount; i++) {
 				Debug.Log (mReader.GetName(i) + " " + mReader.GetDataTypeName(i));
 
-				if (mReader.GetFieldType(i).Equals(typeof(string))) {
-					objs.Add(mReader.GetName(i), mReader.GetString(i));
-				} else if (mReader.GetFieldType(i).Equals(typeof(int))) {
+				if (mReader.GetFieldType(i).Equals(typeof(int))) {
 					objs.Add(mReader.GetName(i), mReader.GetInt32(i));
+				} else if (mReader.GetFieldType(i).Equals(typeof(string))) {
+					objs.Add(mReader.GetName(i), mReader.GetString(i));
 				} else if (mReader.GetFieldType(i).Equals(typeof(float))) {
 					objs.Add(mReader.GetName (i), mReader.GetFloat(i));
 				} else if (mReader.GetFieldType(i).Equals(typeof(double))) {

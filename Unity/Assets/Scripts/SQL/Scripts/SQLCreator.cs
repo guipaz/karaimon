@@ -15,6 +15,8 @@ public class SQLCreator {
 		"FROM karaimon k, attribute_sheet a " +
 		"WHERE k.id_attribute_sheet = a.id";
 
-
+	public const string ATT_SELECT = "SELECT at.*, abm.id_attack, abm.id_mon " +
+		"FROM attack_by_mon abm, mon_attack at " +
+		"WHERE abm.id_mon = {0} AND abm.id_attack = at.id";
 }
 

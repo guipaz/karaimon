@@ -1,3 +1,5 @@
 Java/Karaimon/build
 Unity/Library/metadata
 Unity/Library/ShaderCache
+Unity/Temp/
+*.meta

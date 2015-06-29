@@ -46,10 +46,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\EndBattleHandler.cs" />
      <Compile Include="Assets\SQLTest.cs" />
+     <Compile Include="Assets\Scripts\Battle\AttackController.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleController.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleUIController.cs" />
      <Compile Include="Assets\Scripts\Battle\KaraimonPickerController.cs" />
+     <Compile Include="Assets\Scripts\Models\IEnums.cs" />
+     <Compile Include="Assets\Scripts\Models\Message.cs" />
      <Compile Include="Assets\Scripts\Models\Models.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\LoomManager.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\MonSQLite.cs" />
@@ -58,10 +62,10 @@
  <HintPath>F:/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Data.SqliteClient">
- <HintPath>F:/GameDev/Karaimon Project/Unity/Assets/Scripts/SQL/DLLs/Mono.Data.SqliteClient.dll</HintPath>
+ <HintPath>F:/GameDev/Karaimon/Unity/Assets/Scripts/SQL/DLLs/Mono.Data.SqliteClient.dll</HintPath>
  </Reference>
  <Reference Include="System.Data">
- <HintPath>F:/GameDev/Karaimon Project/Unity/Assets/Scripts/SQL/DLLs/System.Data.dll</HintPath>
+ <HintPath>F:/GameDev/Karaimon/Unity/Assets/Scripts/SQL/DLLs/System.Data.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>F:/Unity/Editor/Data/PlaybackEngines/iossupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
