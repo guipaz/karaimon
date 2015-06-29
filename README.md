@@ -12,3 +12,6 @@ Thx but no thx. Nothing personal, but this is a project so I can learn how to us
 
 ## But this is not how Pokémon works!
 Yeah, I know.
+
+## This code is messy!
+Yeah, I know. I intend to refactor EVERYTHING, but for now what matters is that it works. :)
