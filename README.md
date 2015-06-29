@@ -1,7 +1,7 @@
 # Karaimon Project
 Hi. :)
 
-## What is karaimon?
+## What is Karaimon?
 Karaimon is a little project to recreate Pokémon with Unity. It is purely educational and has no intention of commercial use.
 
 ## Who is doing it?
