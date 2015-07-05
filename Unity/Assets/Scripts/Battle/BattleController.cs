@@ -33,11 +33,16 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 		enemy = null;
 		uiController.ClearLog ();
 		monList.Clear ();
+		loadElements ();
 		loadMons ();
 	}
 
 	void Start () {
 		Restart ();
+	}
+
+	void loadElements() {
+		Element.SetElements (MonSQLite.Instance.GetElements ());
 	}
 
 	void PickerDelegate.MonPicked(Karaimon mon) {
@@ -142,10 +147,18 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 
 		float damage = AttackController.resolveAttack(attackObj, attacker, defender,
 		                               defender == player ? playerDefending : enemyDefending);
+		int effectiveness = AttackController.GetEffectiveness (attackObj, defender);
 
 		messageQueue.Add (new Message(string.Format("{0} used {1}! ({2} uses left)",
 		                              attacker.name, attackObj.name, attackObj.usesLeft),
 		                              IEnums.MessageType.Generic));
+
+		if (effectiveness == 1) {
+			messageQueue.Add (new Message ("It's super effective!", IEnums.MessageType.Generic));
+		} else if (effectiveness == -1) {
+			messageQueue.Add (new Message ("It's not very effective...", IEnums.MessageType.Generic));
+		}
+
 		messageQueue.Add (new Message(defender.name + " lost " + damage + " of health!", IEnums.MessageType.LostHP));
 
 		if (!defender.isAlive()) {

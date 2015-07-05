@@ -76,32 +76,32 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 	void PickerDelegate.MonPicked(Karaimon mon) {
 		MonAttack attack = mon.attacks.getAttack1 ();
 		if (attack != null) {
-			attack1.GetComponentInChildren<Text>().text = attack.name;
 			attack1.gameObject.SetActive(true);
+			attack1.GetComponentInChildren<Text>().text = attack.name;
 		} else {
 			attack1.gameObject.SetActive(false);
 		}
 
 		attack = mon.attacks.getAttack2 ();
 		if (attack != null) {
-			attack2.GetComponentInChildren<Text>().text = attack.name;
 			attack2.gameObject.SetActive(true);
+			attack2.GetComponentInChildren<Text>().text = attack.name;
 		} else {
 			attack2.gameObject.SetActive(false);
 		}
 
 		attack = mon.attacks.getAttack3 ();
 		if (attack != null) {
-			attack3.GetComponentInChildren<Text>().text = attack.name;
 			attack3.gameObject.SetActive(true);
+			attack3.GetComponentInChildren<Text>().text = attack.name;
 		} else {
 			attack3.gameObject.SetActive(false);
 		}
 
 		attack = mon.attacks.getAttack4 ();
 		if (attack != null) {
-			attack4.GetComponentInChildren<Text>().text = attack.name;
 			attack4.gameObject.SetActive(true);
+			attack4.GetComponentInChildren<Text>().text = attack.name;
 		} else {
 			attack4.gameObject.SetActive(false);
 		}

@@ -74,6 +74,22 @@ public class MonSQLite : MonoBehaviour
 	}
 	
 	#region Query Values
+	public List<Element> GetElements() {
+		string select = SQLCreator.ELEMENT_SELECT;
+
+		List<Element> elementList = new List<Element> ();
+		Debug.Log (select);
+		List<Dictionary<string, object>> elementHashes = Get (select, false);
+		foreach (Dictionary<string, object> entry in elementHashes) {
+			Element k = new Element(entry);
+			if (k != null) {
+				elementList.Add(k);
+			}
+		}
+		
+		return elementList;
+	}
+
 	public List<Karaimon> GetKaraimon(int id = -1) {
 		string select = SQLCreator.MON_SELECT;
 		bool single = id > -1;

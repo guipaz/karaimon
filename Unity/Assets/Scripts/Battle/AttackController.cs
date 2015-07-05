@@ -18,8 +18,30 @@ public class AttackController
 		float attackDamage = attack.strenght;
 		int division = isDefending ? 6 : 3; 
 		int finalDamage = (int)(attackerDamage * attackDamage / division);
+		finalDamage *= (int)CalculateElementalQuotient (attack, defender);
 		defender.reduceLife (finalDamage);
 		return finalDamage;
+	}
+
+	private static float CalculateElementalQuotient(MonAttack attack, Karaimon defender) {
+		switch (GetEffectiveness(attack, defender)) {
+		case 1:
+			return 2;
+		case 2:
+			return 0.5f;
+		default:
+			return 1;
+		}
+	}
+
+	public static int GetEffectiveness(MonAttack attack, Karaimon defender) {
+		if (attack.element.id_strong_against == defender.element.id) {
+			return 1;
+		} else if (attack.element.id_weak_against == defender.element.id) {
+			return -1;
+		}
+
+		return 0;
 	}
 }
 

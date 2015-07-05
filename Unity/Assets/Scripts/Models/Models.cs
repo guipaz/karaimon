@@ -7,6 +7,7 @@ public class Karaimon {
 	public float totalLife { get; set; }
 	public AttributeSheet attributes { get; set; }
 	public AttackSheet attacks { get; set; }
+	public Element element { get; set; }
 
 	public Karaimon() { }
 
@@ -26,6 +27,10 @@ public class Karaimon {
 		if (hash.ContainsKey ("ds_name")) {
 			name = hash["ds_name"].ToString();
 		}
+
+		if (hash.ContainsKey ("id_element")) {
+			element = Element.Get(int.Parse(hash["id_element"].ToString()));
+		}
 	}
 
 	public Karaimon Clone() {
@@ -35,6 +40,7 @@ public class Karaimon {
 		newKaraimon.attacks = attacks.Clone ();
 		newKaraimon.name = name;
 		newKaraimon.totalLife = totalLife;
+		newKaraimon.element = Element.Get (element.id);
 		return newKaraimon;
 	}
 
@@ -96,6 +102,34 @@ public class Element {
 	public string name;
 	public int id_strong_against;
 	public int id_weak_against;
+	static List<Element> elements;
+
+	public Element(Dictionary<string, object> hash) {
+		if (hash.ContainsKey ("id")) {
+			id = int.Parse(hash["id"].ToString());
+		}
+		
+		if (hash.ContainsKey ("id_strenght_against")) {
+			id_strong_against = int.Parse(hash["id_strenght_against"].ToString());
+		}
+		
+		if (hash.ContainsKey ("id_weakened_by")) {
+			id_weak_against = int.Parse(hash["id_weakened_by"].ToString());
+		}
+	}
+
+	public static void SetElements(List<Element> elements) {
+		Element.elements = elements;
+	}
+
+	public static Element Get(int id) {
+		foreach (Element e in Element.elements) {
+			if (e.id == id)
+				return e;
+		}
+
+		return null;
+	}
 }
 
 public class MonAttack {
@@ -120,6 +154,10 @@ public class MonAttack {
 		
 		if (hash.ContainsKey ("vl_strenght")) {
 			strenght = float.Parse(hash["vl_strenght"].ToString());
+		}
+
+		if (hash.ContainsKey ("id_element")) {
+			element = Element.Get(int.Parse(hash["id_element"].ToString()));
 		}
 	}
 
