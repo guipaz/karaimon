@@ -17,19 +17,22 @@ Karaimon v0.03
 - Aplicação das razões de dano e defesa elementais
 
 Karaimon v0.04
-- Refatorar carregamento do database
 - Karaimon é escolhido no começo e continua com jogador com batalhas consecutivas
 - Experiência ao derrotar o inimigo e níveis
 - Salva a experiência e nível a cada batalha
 - Cada Karaimon possui os valores que aumenta a cada nível
 
 Karaimon v0.05
+- Refatorar carregamento do database
 - Aplicação dos atributos reais de Pokémon
-- Definida proporção de experiência para cada nível em escala geométrica
+- Adição de todos os tipos
+- Karaimon pode ter mais de um tipo
+- Definida proporção de experiência e aumento de atributos por nível
 - Tela inicial com opções de novo jogo (apagar anterior) e carregar jogo
 
 Karaimon v.06
 - Refatoração.
+- Adição dos sprites de cada Karaimon
 
 Karaimon v1.0
 - Escolha de uma equipe de 3 karaimons

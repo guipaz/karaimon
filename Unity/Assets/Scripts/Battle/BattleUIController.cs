@@ -10,9 +10,12 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 
 	public Text playerMonName;
 	public Text playerMonLife;
+	public Text playerMonLevel;
+	public Text playerMonExp;
 
 	public Text enemyMonName;
 	public Text enemyMonLife;
+	public Text enemyMonLevel;
 
 	public Button attack1;
 	public Button attack2;
@@ -55,9 +58,9 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		log.text = "";
 	}
 
-	public void RestartBattle() {
+	public void RestartBattle(bool won) {
 		Destroy (endBattle);
-		controller.Restart();
+		controller.Restart(won);
 	}
 
 	public void loadPicker() {
@@ -67,10 +70,11 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		picker.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
 	}
 
-	public void EndBattle() {
+	public void EndBattle(bool won) {
 		endBattle = Instantiate (endBattlePrefab);
 		endBattle.transform.SetParent (canvas.transform);
 		endBattle.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
+		endBattle.GetComponent<EndBattleHandler>().SetWon(won);
 	}
 
 	void PickerDelegate.MonPicked(Karaimon mon) {

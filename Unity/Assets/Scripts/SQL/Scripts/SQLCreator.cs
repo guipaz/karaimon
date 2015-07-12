@@ -11,7 +11,8 @@ using System;
 
 public class SQLCreator {
 
-	public const string MON_SELECT = "SELECT k.*, a.vl_strenght, a.vl_agility, a.vl_toughness " +
+	public const string MON_SELECT = "SELECT k.*, a.vl_strenght, a.vl_agility, a.vl_toughness, a.vl_experience, " +
+		"a.vl_strenght_add, a.vl_agility_add, a.vl_toughness_add " +
 		"FROM karaimon k, attribute_sheet a " +
 		"WHERE k.id_attribute_sheet = a.id";
 

@@ -1,9 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\edithproject\The Legend of Edith\Assets\Scripts\MapLoader\Tileset.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Battle\BattleController.cs">
     <Files>
-      <File FileName="..\..\edithproject\The Legend of Edith\Assets\Scripts\MapLoader\MapLoader.cs" Line="39" Column="29" />
-      <File FileName="..\..\edithproject\The Legend of Edith\Assets\Scripts\MapLoader\Tileset.cs" Line="52" Column="31" />
+      <File FileName="Assets\Scripts\Battle\BattleController.cs" Line="37" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

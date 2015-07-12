@@ -20,8 +20,11 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 	bool shouldRunEnemyTurn = false;
 	bool shouldRunPlayerTurn = false;
 	public bool shouldEndBattle = false;
+	bool playerWon = false;
 
-	public void Restart() {
+	int battleCount = 0;
+
+	public void Restart(bool won) {
 		playerDefending = false;
 		enemyDefending = false;
 		isEnemyTurn = false;
@@ -29,16 +32,21 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 		shouldRunEnemyTurn = false;
 		shouldRunPlayerTurn = false;
 		shouldEndBattle = false;
-		player = null;
-		enemy = null;
 		uiController.ClearLog ();
-		monList.Clear ();
-		loadElements ();
-		loadMons ();
+		enemy = null;
+
+		if (won) {
+			player.resetMon();
+			((PickerDelegate)this).MonPicked (player);
+		} else {
+			battleCount = 0;
+			uiController.loadPicker();
+		}
 	}
 
 	void Start () {
-		Restart ();
+		loadElements ();
+		loadMons ();
 	}
 
 	void loadElements() {
@@ -46,11 +54,11 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 	}
 
 	void PickerDelegate.MonPicked(Karaimon mon) {
-		messageQueue.Add(new Message(mon.name + " picked! He has " + mon.attributes.tou + " toughness!", IEnums.MessageType.Generic));
+		messageQueue.Add(new Message(mon.name + " picked! He has " + mon.attributes.currentTou + " toughness!", IEnums.MessageType.Generic));
 
 		player = mon.Clone();
 		enemy = monList[new System.Random ().Next (0, monList.Count - 1)].Clone();
-		messageQueue.Add (new Message(enemy.name + " is his enemy! He has " + enemy.attributes.tou + " toughness!", IEnums.MessageType.Generic));
+		messageQueue.Add (new Message(enemy.name + " is his enemy! He has " + enemy.attributes.currentTou + " toughness!", IEnums.MessageType.Generic));
 
 		ShowMessages ();
 
@@ -104,7 +112,7 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 
 	public void AfterShowMessage() {
 		if (shouldEndBattle) {
-			uiController.EndBattle();
+			EndBattle();
 			return;
 		}
 
@@ -112,6 +120,29 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 			runEnemyTurn ();
 		else if (shouldRunPlayerTurn)
 			preparePlayerTurn ();
+	}
+
+	void EndBattle() {
+		shouldEndBattle = false;
+		shouldRunEnemyTurn = false;
+		shouldRunPlayerTurn = false;
+
+		if (playerWon) {
+			int experience = 50; // dynamic later
+			bool leveled = player.AddExperience(experience);
+			messageQueue.Add(new Message(player.name + " gained " +
+			                             experience + " experience!", IEnums.MessageType.Generic));
+
+			if (leveled) {
+				messageQueue.Add(new Message(player.name + " is now level " +
+				                             player.attributes.level + "!", IEnums.MessageType.Generic));
+			}
+
+			ShowMessages();
+			refreshNames();
+		}
+
+		uiController.EndBattle(playerWon);
 	}
 
 	public void playerDefended() {
@@ -162,6 +193,7 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 		messageQueue.Add (new Message(defender.name + " lost " + damage + " of health!", IEnums.MessageType.LostHP));
 
 		if (!defender.isAlive()) {
+			playerWon = defender != player;
 			messageQueue.Add (new Message(defender.name + " fainted!", IEnums.MessageType.Fainted));
 		}
 
@@ -205,12 +237,16 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 
 	void refreshNames() {
 		uiController.playerMonName.text = player.name;
+		uiController.playerMonLevel.text = "Level: " + player.attributes.level;
+		uiController.playerMonExp.text = "XP: " + player.attributes.experience;
+
 		uiController.enemyMonName.text = enemy.name;
+		uiController.enemyMonLevel.text = "Level: " + enemy.attributes.level;
 	}
 
 	void refreshHealth() {
-		uiController.playerMonLife.text = "Health: " + player.totalLife.ToString();
-		uiController.enemyMonLife.text = "Health: " + enemy.totalLife.ToString();
+		uiController.playerMonLife.text = "Health: " + player.attributes.currentLife.ToString();
+		uiController.enemyMonLife.text = "Health: " + enemy.attributes.currentLife.ToString();
 	}
 
 	bool refreshAlive() {
@@ -232,7 +268,7 @@ public class BattleController : MonoBehaviour, PickerDelegate {
 		yield return new WaitForSeconds(1);
 
 		System.Random r = new System.Random ();
-		bool willAttack = r.Next (1, 10) > 6 ? false : true;
+		bool willAttack = r.Next (1, 10) > 8 ? false : true;
 		if (willAttack) {
 			attackNumber = r.Next (1, enemy.attacks.Count());
 		} else {

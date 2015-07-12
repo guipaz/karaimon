@@ -134,6 +134,7 @@ public class MonSQLite : MonoBehaviour
 
 			for (int i = 0; i < fieldCount; i++) {
 				Debug.Log (mReader.GetName(i) + " " + mReader.GetDataTypeName(i));
+				Debug.Log (mReader.GetFieldType(i).Name);
 
 				if (mReader.GetFieldType(i).Equals(typeof(int))) {
 					objs.Add(mReader.GetName(i), mReader.GetInt32(i));

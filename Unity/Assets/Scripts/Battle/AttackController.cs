@@ -14,11 +14,11 @@ public class AttackController
 {
 	public static float resolveAttack(MonAttack attack, Karaimon attacker, Karaimon defender, bool isDefending) {
 		attack.usesLeft--;
-		float attackerDamage = attacker.attributes.str;
+		float attackerDamage = attacker.attributes.currentStr;
 		float attackDamage = attack.strenght;
 		int division = isDefending ? 6 : 3; 
 		int finalDamage = (int)(attackerDamage * attackDamage / division);
-		finalDamage *= (int)CalculateElementalQuotient (attack, defender);
+		finalDamage = (int)(finalDamage * CalculateElementalQuotient (attack, defender));
 		defender.reduceLife (finalDamage);
 		return finalDamage;
 	}
@@ -27,7 +27,7 @@ public class AttackController
 		switch (GetEffectiveness(attack, defender)) {
 		case 1:
 			return 2;
-		case 2:
+		case -1:
 			return 0.5f;
 		default:
 			return 1;

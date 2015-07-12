@@ -46,11 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\EndBattleHandler.cs" />
-     <Compile Include="Assets\SQLTest.cs" />
      <Compile Include="Assets\Scripts\Battle\AttackController.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleController.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleUIController.cs" />
+     <Compile Include="Assets\Scripts\Battle\EndBattleHandler.cs" />
      <Compile Include="Assets\Scripts\Battle\KaraimonPickerController.cs" />
      <Compile Include="Assets\Scripts\Models\IEnums.cs" />
      <Compile Include="Assets\Scripts\Models\Message.cs" />
