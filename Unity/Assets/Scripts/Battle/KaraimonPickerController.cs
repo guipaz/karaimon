@@ -7,7 +7,7 @@ public class KaraimonPickerController : MonoBehaviour {
 	public Text monName;
 	public PickerDelegate pickerDelegate;
 
-	List<Karaimon> monList = BattleController.monList;
+	List<Karaimon> monList = DataHolder.MonList;
 	int currentIndex = 0;
 	Karaimon currentMon;
 

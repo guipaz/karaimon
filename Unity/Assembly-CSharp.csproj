@@ -47,13 +47,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Battle\AttackController.cs" />
-     <Compile Include="Assets\Scripts\Battle\BattleController.cs" />
+     <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleUIController.cs" />
      <Compile Include="Assets\Scripts\Battle\EndBattleHandler.cs" />
      <Compile Include="Assets\Scripts\Battle\KaraimonPickerController.cs" />
      <Compile Include="Assets\Scripts\Models\IEnums.cs" />
      <Compile Include="Assets\Scripts\Models\Message.cs" />
      <Compile Include="Assets\Scripts\Models\Models.cs" />
+     <Compile Include="Assets\Scripts\SQL\Scripts\DataHolder.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\LoomManager.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\MonSQLite.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\SQLCreator.cs" />

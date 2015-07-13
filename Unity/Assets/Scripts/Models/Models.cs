@@ -40,7 +40,7 @@ public class Karaimon {
 		return newKaraimon;
 	}
 
-	public void resetMon() {
+	public void Reset() {
 		foreach (MonAttack attack in attacks.attacks) {
 			attack.usesLeft = attack.totalUses;
 		}

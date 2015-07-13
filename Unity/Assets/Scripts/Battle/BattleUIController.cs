@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class BattleUIController : MonoBehaviour, PickerDelegate {
 	public Canvas canvas;
@@ -24,10 +25,12 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 
 	public Text log;
 
-	public BattleController controller;
+	public BattleMaster controller;
 
 	GameObject picker;
 	GameObject endBattle;
+
+	List<Message> messageQueue = new List<Message>();
 
 	public void SendMessage(string msg) {
 		if (controller.isEnemyTurn || controller.shouldEndBattle) {
@@ -35,7 +38,7 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		}
 
 		if (msg.Equals ("defend")) {
-			controller.playerDefended();
+			controller.Defend();
 			return;
 		}
 
@@ -51,19 +54,20 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		}
 
 		if (attack != 0)
-			controller.playerAttacked(attack);
+			controller.Attack(attack);
 	}
 
 	public void ClearLog() {
 		log.text = "";
+		messageQueue.Clear ();
 	}
 
 	public void RestartBattle(bool won) {
 		Destroy (endBattle);
-		controller.Restart(won);
+		controller.RestartBattle(won);
 	}
 
-	public void loadPicker() {
+	public void LoadPicker() {
 		picker = Instantiate (pickerObject);
 		picker.GetComponent<KaraimonPickerController> ().pickerDelegate = this;
 		picker.transform.SetParent (canvas.transform);
@@ -114,7 +118,49 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		((PickerDelegate)controller).MonPicked (mon);
 	}
 
-	public void addLog(string text) {
+	public void AddLog(string text) {
 		log.text = string.Format ("{0}\n{1}", log.text, text);
+	}
+
+	public void AddMessage(Message message) {
+		messageQueue.Add (message);
+	}
+
+	public void ShowMessages() {
+		StartCoroutine ("ShowMessagesRoutine");
+	}
+	
+	IEnumerator ShowMessagesRoutine() {
+		List<Message> messageTemp = new List<Message>();
+		messageTemp.AddRange (messageQueue);
+		messageQueue.Clear ();
+		
+		foreach (Message message in messageTemp) {
+			AddLog(message.text);
+			
+			switch (message.type) {
+			case IEnums.MessageType.LostHP:
+				controller.RefreshHealth();
+				break;
+			case IEnums.MessageType.Fainted:
+				controller.shouldEndBattle = !controller.RefreshAlive();
+				break;
+			case IEnums.MessageType.Generic:
+				break;
+			}
+			
+			yield return new WaitForSeconds(0.5f);
+		}
+		
+		AfterShowMessage ();
+	}
+
+	public void AfterShowMessage() {
+		if (controller.shouldEndBattle) {
+			controller.EndBattle();
+			return;
+		}
+		
+		controller.AfterShowMessage ();
 	}
 }
