@@ -16,5 +16,10 @@ public class IEnums {
 		Generic
 	};
 
+	public enum MoveType {
+		Physical,
+		Status,
+		Special
+	}
 }
 

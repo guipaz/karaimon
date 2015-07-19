@@ -28,20 +28,17 @@ public class MonSQLite : MonoBehaviour
 	private string mSQLString;
 	private bool mCreateNewTable = false;
 	
-	void Awake()
-	{
+	void Awake() {
 		Debug.Log(SQL_DB_LOCATION);
 		Instance = this;
 		SQLiteInit();
 	}
 
-	void OnDestroy()
-	{
+	void OnDestroy() {
 		SQLiteClose();
 	}
 
-	private void SQLiteInit()
-	{
+	private void SQLiteInit() {
 		Debug.Log("SQLiter - Opening SQLite Connection");
 		mConnection = new SqliteConnection(SQL_DB_LOCATION);
 		mCommand = mConnection.CreateCommand();
@@ -84,10 +81,27 @@ public class MonSQLite : MonoBehaviour
 			Element k = new Element(entry);
 			if (k != null) {
 				elementList.Add(k);
+
+				k.relations = GetRelations(k.id);
 			}
 		}
 		
 		return elementList;
+	}
+
+	public Dictionary<int, int> GetRelations(int id) {
+		string select = string.Format(SQLCreator.ELEMENT_RELATION_SELECT, id);
+		
+		Dictionary<int, int> relations = new Dictionary<int, int> ();
+		Debug.Log (select);
+		List<Dictionary<string, object>> elementHashes = Get (select, false);
+		foreach (Dictionary<string, object> entry in elementHashes) {
+			int idElement = int.Parse(entry["id_element_r"].ToString());
+			int relation = int.Parse (entry["vl_relation"].ToString());
+			relations.Add(idElement, relation);
+		}
+		
+		return relations;
 	}
 
 	public List<Karaimon> GetKaraimon(int id = -1) {
@@ -110,7 +124,13 @@ public class MonSQLite : MonoBehaviour
 			if (k != null) {
 				string attSelect = string.Format(SQLCreator.ATT_SELECT, k.id);
 				List<Dictionary<string, object>> attacks = Get(attSelect, false);
-				k.attacks = new AttackSheet(attacks);
+
+				List<MonMove> moves = new List<MonMove>();
+				foreach (Dictionary<string, object> moveEntry in attacks) {
+					moves.Add(new MonMove(moveEntry));
+				}
+
+				k.moves = moves;
 
 				monsList.Add(k);
 			}
@@ -133,8 +153,8 @@ public class MonSQLite : MonoBehaviour
 			int fieldCount = mReader.FieldCount;
 
 			for (int i = 0; i < fieldCount; i++) {
-				Debug.Log (mReader.GetName(i) + " " + mReader.GetDataTypeName(i));
-				Debug.Log (mReader.GetFieldType(i).Name);
+				//Debug.Log (mReader.GetName(i) + " " + mReader.GetDataTypeName(i));
+				//Debug.Log (mReader.GetFieldType(i).Name);
 
 				if (mReader.GetFieldType(i).Equals(typeof(int))) {
 					objs.Add(mReader.GetName(i), mReader.GetInt32(i));
@@ -149,11 +169,11 @@ public class MonSQLite : MonoBehaviour
 			
 			list.Add(objs);
 			
-			string objString = "";
-			foreach (KeyValuePair<string, object> obj in objs) {
-				objString += obj.Key + ": " + obj.Value + " - ";
-			}
-			Debug.Log (objString);
+			//string objString = "";
+			//foreach (KeyValuePair<string, object> obj in objs) {
+			//	objString += obj.Key + ": " + obj.Value + " - ";
+			//}
+			//Debug.Log (objString);
 
 			if (single)
 				break;

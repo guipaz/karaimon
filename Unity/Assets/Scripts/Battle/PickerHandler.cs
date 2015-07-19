@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class KaraimonPickerController : MonoBehaviour {
+public class PickerHandler : MonoBehaviour {
 
 	public Text monName;
 	public PickerDelegate pickerDelegate;
 
-	List<Karaimon> monList = DataHolder.MonList;
+	List<Karaimon> monList = DataHolder.mons;
 	int currentIndex = 0;
 	Karaimon currentMon;
 

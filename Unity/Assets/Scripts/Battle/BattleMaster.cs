@@ -7,8 +7,8 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 
 	// Main control
 	public BattleUIController GUI;
-	Karaimon player;
-	Karaimon enemy;
+	PlayerMon player;
+	WildMon enemy;
 
 	// Booleans
 	public bool isEnemyTurn = false;
@@ -39,8 +39,8 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		GUI.ClearLog ();
 
 		if (playerWon) {
-			player.Reset();
-			((PickerDelegate)this).MonPicked (player);
+			player.ResetCurrent();
+			((PickerDelegate)this).MonPicked (null);
 			return;
 		} else {
 			GUI.LoadPicker();
@@ -60,14 +60,14 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		shouldRunPlayerTurn = false;
 		
 		if (playerWon) {
-			int experience = 50; // dynamic later
+			int experience = RulesController.CalculateExperience(enemy.GetExperienceGiven());
 			bool leveled = player.AddExperience(experience);
-			GUI.AddMessage(new Message(player.name + " gained " +
+			GUI.AddMessage(new Message(player.GetName() + " gained " +
 			                             experience + " experience!", IEnums.MessageType.Generic));
 			
 			if (leveled) {
-				GUI.AddMessage(new Message(player.name + " is now level " +
-				                             player.attributes.level + "!", IEnums.MessageType.Generic));
+				GUI.AddMessage(new Message(player.GetName () + " is now level " +
+				                             player.level + "!", IEnums.MessageType.Generic));
 			}
 			
 			GUI.ShowMessages();
@@ -79,27 +79,27 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 
 	// Information
 	void RefreshInformation() {
-		GUI.playerMonName.text = player.name;
-		GUI.playerMonLevel.text = "Level: " + player.attributes.level;
-		GUI.playerMonExp.text = "XP: " + player.attributes.experience;
+		GUI.playerMonName.text = player.GetName();
+		GUI.playerMonLevel.text = "Level: " + player.level;
+		GUI.playerMonExp.text = "XP: " + player.experience;
 		
-		GUI.enemyMonName.text = enemy.name;
-		GUI.enemyMonLevel.text = "Level: " + enemy.attributes.level;
+		GUI.enemyMonName.text = enemy.GetName();
+		GUI.enemyMonLevel.text = "Level: " + enemy.level;
 
 		RefreshHealth ();
 	}
 
 	public void RefreshHealth() {
-		GUI.playerMonLife.text = "Health: " + player.attributes.currentLife.ToString();
-		GUI.enemyMonLife.text = "Health: " + enemy.attributes.currentLife.ToString();
+		GUI.playerMonLife.text = "Health: " + player.currentHp.ToString();
+		GUI.enemyMonLife.text = "Health: " + enemy.currentHp.ToString();
 	}
 
 	public bool RefreshAlive() {
-		if (!player.isAlive ()) {
-			GUI.playerMonName.text = player.name + " fainted!";
+		if (!player.IsAlive()) {
+			GUI.playerMonName.text = player.GetName() + " fainted!";
 			return false;
-		} else if (!enemy.isAlive ()) {
-			GUI.enemyMonName.text = enemy.name + " fainted!";
+		} else if (!enemy.IsAlive()) {
+			GUI.enemyMonName.text = enemy.GetName() + " fainted!";
 			return false;
 		}
 		
@@ -117,22 +117,9 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		Attack (player, enemy, attack);
 	}
 
-	void Attack(Karaimon attacker, Karaimon defender, int attack) {
-		MonAttack attackObj;
-		switch (attack) {
-		case 2:
-			attackObj = attacker.attacks.getAttack2();
-			break;
-		case 3:
-			attackObj = attacker.attacks.getAttack3();
-			break;
-		case 4:
-			attackObj = attacker.attacks.getAttack4();
-			break;
-		default:
-			attackObj = attacker.attacks.getAttack1();
-			break;
-		}
+	void Attack(WildMon attacker, WildMon defender, int attack) {
+		MonMove attackObj;
+		attackObj = attacker.moves [attack-1];
 		
 		if (attackObj.usesLeft <= 0) {
 			GUI.AddMessage(new Message(attackObj.name + " can't be used anymore!", IEnums.MessageType.Generic));
@@ -140,12 +127,14 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 			return;
 		}
 		
-		float damage = AttackController.resolveAttack(attackObj, attacker, defender,
-		                                              defender == player ? playerDefending : enemyDefending);
-		int effectiveness = AttackController.GetEffectiveness (attackObj, defender);
+		int damage = RulesController.CalculateDamage(attackObj, attacker, defender);
+		defender.ReduceLife (damage);
+		attackObj.usesLeft--;
+
+		int effectiveness = RulesController.GetEffectiveness (attackObj, defender);
 		
 		GUI.AddMessage (new Message(string.Format("{0} used {1}! ({2} uses left)",
-		                                            attacker.name, attackObj.name, attackObj.usesLeft),
+		                                            attacker.GetName(), attackObj.name, attackObj.usesLeft),
 		                              IEnums.MessageType.Generic));
 		
 		if (effectiveness == 1) {
@@ -154,11 +143,11 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 			GUI.AddMessage (new Message ("It's not very effective...", IEnums.MessageType.Generic));
 		}
 		
-		GUI.AddMessage (new Message(defender.name + " lost " + damage + " of health!", IEnums.MessageType.LostHP));
+		GUI.AddMessage (new Message(defender.GetName() + " lost " + damage + " of health!", IEnums.MessageType.LostHP));
 		
-		if (!defender.isAlive()) {
+		if (!defender.IsAlive()) {
 			playerWon = defender != player;
-			GUI.AddMessage (new Message(defender.name + " fainted!", IEnums.MessageType.Fainted));
+			GUI.AddMessage (new Message(defender.GetName() + " fainted!", IEnums.MessageType.Fainted));
 		}
 		
 		if (attacker == player) {
@@ -174,21 +163,28 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 
 	public void Defend() {
 		playerDefending = true;
-		GUI.AddMessage (new Message(player.name + " defended!", IEnums.MessageType.Generic));
+		GUI.AddMessage (new Message(player.GetName() + " defended!", IEnums.MessageType.Generic));
 		
 		shouldRunEnemyTurn = true;
 		GUI.ShowMessages ();
 	}
 
 	void PickerDelegate.MonPicked(Karaimon mon) {
-		GUI.AddMessage(new Message(mon.name + " picked! He has " + mon.attributes.currentTou + " toughness!", IEnums.MessageType.Generic));
-		
-		player = mon.Clone();
-		enemy = DataHolder.MonList[new System.Random ().Next (0, DataHolder.MonList.Count - 1)].Clone();
-		GUI.AddMessage (new Message(enemy.name + " is his enemy! He has " + enemy.attributes.currentTou + " toughness!", IEnums.MessageType.Generic));
-		
+		if (mon != null)
+			player = new PlayerMon(mon);
+
+		Karaimon enemyMon = DataHolder.mons[new System.Random ().Next (0, DataHolder.mons.Count - 1)];
+		enemy = new WildMon(enemyMon);
+
+		GUI.RefreshMoves (player);
+
+		GUI.AddMessage(new Message(player.GetName() + " picked!", IEnums.MessageType.Generic));
+		GUI.AddMessage (new Message(enemy.GetName() + " is his enemy!", IEnums.MessageType.Generic));
 		GUI.ShowMessages ();
-		
+
+		player.ResetCurrent ();
+		enemy.ResetCurrent ();
+
 		RefreshInformation ();
 		PreparePlayerTurn ();
 	}
@@ -196,7 +192,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 	// Enemy flow
 	void PrepareEnemyTurn() {
 		shouldRunEnemyTurn = false;
-		if (!enemy.isAlive ())
+		if (!enemy.IsAlive ())
 			return;
 		
 		enemyDefending = false;
@@ -213,7 +209,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		System.Random r = new System.Random ();
 		bool willAttack = r.Next (1, 10) > 8 ? false : true;
 		if (willAttack) {
-			attackNumber = r.Next (1, enemy.attacks.Count());
+			attackNumber = r.Next (1, enemy.moves.Count());
 		} else {
 			defended = true;
 		}
@@ -225,7 +221,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		shouldRunPlayerTurn = true;
 		
 		if (defended) {
-			GUI.AddMessage (new Message(enemy.name + " defended!", IEnums.MessageType.Generic));
+			GUI.AddMessage (new Message(enemy.GetName() + " defended!", IEnums.MessageType.Generic));
 			GUI.ShowMessages();
 		} else {
 			Attack (enemy, player, attackNumber);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 
 	public void LoadPicker() {
 		picker = Instantiate (pickerObject);
-		picker.GetComponent<KaraimonPickerController> ().pickerDelegate = this;
+		picker.GetComponent<PickerHandler> ().pickerDelegate = this;
 		picker.transform.SetParent (canvas.transform);
 		picker.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
 	}
@@ -82,40 +82,41 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 	}
 
 	void PickerDelegate.MonPicked(Karaimon mon) {
-		MonAttack attack = mon.attacks.getAttack1 ();
-		if (attack != null) {
-			attack1.gameObject.SetActive(true);
-			attack1.GetComponentInChildren<Text>().text = attack.name;
-		} else {
-			attack1.gameObject.SetActive(false);
-		}
-
-		attack = mon.attacks.getAttack2 ();
-		if (attack != null) {
-			attack2.gameObject.SetActive(true);
-			attack2.GetComponentInChildren<Text>().text = attack.name;
-		} else {
-			attack2.gameObject.SetActive(false);
-		}
-
-		attack = mon.attacks.getAttack3 ();
-		if (attack != null) {
-			attack3.gameObject.SetActive(true);
-			attack3.GetComponentInChildren<Text>().text = attack.name;
-		} else {
-			attack3.gameObject.SetActive(false);
-		}
-
-		attack = mon.attacks.getAttack4 ();
-		if (attack != null) {
-			attack4.gameObject.SetActive(true);
-			attack4.GetComponentInChildren<Text>().text = attack.name;
-		} else {
-			attack4.gameObject.SetActive(false);
-		}
-
 		Destroy (picker);
 		((PickerDelegate)controller).MonPicked (mon);
+	}
+
+	public void RefreshMoves(PlayerMon mon) {
+		attack1.gameObject.SetActive(false);
+		attack2.gameObject.SetActive(false);
+		attack3.gameObject.SetActive(false);
+		attack4.gameObject.SetActive(false);
+
+		for (int i = 0; i < mon.moves.Count(); i++) {
+			MonMove attack = mon.moves[i];
+
+			if (attack == null)
+				continue;
+
+			Button button = null;
+			switch (i) {
+			case 0:
+				button = attack1;
+				break;
+			case 1:
+				button = attack2;
+				break;
+			case 2:
+				button = attack3;
+				break;
+			case 3:
+				button = attack4;
+				break;
+			}
+
+			button.gameObject.SetActive(true);
+			button.GetComponentInChildren<Text>().text = attack.name;
+		}
 	}
 
 	public void AddLog(string text) {
