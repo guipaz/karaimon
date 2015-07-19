@@ -5,7 +5,7 @@ Hi. :)
 Karaimon is a little project to recreate Pokémon with Unity. It is purely educational and has no intention of commercial use.
 
 ## Who is doing it?
-We at Obtuse Chinchilla.
+An obtuse chinchilla.
 
 ## Can I do it too?
 Feel free to fork it and change it as much as you want.
