@@ -1,0 +1,30 @@
+Status
+http://pokemondb.net/move/generation/1
+http://pokemondb.net/move/generation/2
+http://pokemondb.net/move/generation/3
+
+- Non-volatile
+
+Burn
+Freeze
+Paralysis
+Poison
+Sleep
+
+- Volatile
+
+Confusion
+Curse
+Encore
+Flinch
+Heal Block
+Infatuation
+Partially Trapped
+Seeding
+Aqua Ring
+Bracing
+Defense Curl
+Glowing
+Rooting
+Protection
+Semi-invulnerable

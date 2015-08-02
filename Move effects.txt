@@ -1,0 +1,41 @@
+Simple
+- May cause status 39
+- Raise/Lower status 33
+- Recover X HP 6
+- Steal HP from opponent each turn 1
+- High critical ratio 5
+- Always inflict X HP 2
+- User faints 2
+- 1HKO if it hits 3
+- Reset stat changes 1
+- If miss, user loses half HP 2
+- Attack based on enemy heaviness 1
+- Perform any random move 1
+- Damage based on level 3
+- Doesn't do ANYTHING 1
+- Always take off half of enemy's HP 1
+- Ignores accuracy and evasiveness 1
+
+Medium
+- Hit X times in one turn 10
+- X first turn, attack on second 6
+- Enemy can't use attack for X turns 1
+- Power doubled if opponent underground 1
+- Trap enemy, damage for X turns 4
+- Must recharge next turn 1
+- Halves damage from X for X turns 2
+- Perform enemy last move 1
+- User stats cannot be changed for X turns 1
+- User attacks first
+- Usable when PP = 0, hurts the user 1
+
+Complex
+- Take damage X turns and strike double 1
+- Change user type 1
+- When hit by attack, strikes back 1
+- Receive recoil damage 3
+- Copies enemy last move 1
+- User attacks for X turns and becomes confused 2
+- User sleeps for X turns but fully healed 1
+- Use HP to create a decoy that takes hits 1
+- Transforms into the enemy 1

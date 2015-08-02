@@ -32,61 +32,65 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 
 	List<Message> messageQueue = new List<Message>();
 
-	public void SendMessage(string msg) {
-		if (controller.isEnemyTurn || controller.shouldEndBattle) {
-			return;
-		}
+	PickerDelegate pickerDelegate;
 
-		if (msg.Equals ("defend")) {
-			controller.Defend();
-			return;
-		}
+	/* New, better and stronger */
+	IBattleResponder responder;
 
-		int attack = 0;
-		if (msg.Equals ("attack1")) {
-			attack = 1;
-		} else if (msg.Equals ("attack2")) {
-			attack = 2;
-		} else if (msg.Equals ("attack3")) {
-			attack = 3;
-		} else if (msg.Equals ("attack4")) {
-			attack = 4;
-		}
-
-		if (attack != 0)
-			controller.Attack(attack);
+	public void SetBattleResponder(IBattleResponder responder)
+	{
+		this.responder = responder;
 	}
 
-	public void ClearLog() {
+	public void SendMessage(string msg)
+	{
+		if (!responder.CanAttack())
+			return;
+
+		int move = 0;
+		if (msg.StartsWith("move"))
+			move = int.Parse(msg.Substring(4, 1)) - 1;
+
+		responder.ChoosePlayerMove(move);
+	}
+
+	public void ClearLog()
+	{
 		log.text = "";
 		messageQueue.Clear ();
 	}
 
-	public void RestartBattle(bool won) {
+	public void RestartBattle(bool won)
+	{
 		Destroy (endBattle);
 		controller.RestartBattle(won);
 	}
 
-	public void LoadPicker() {
+	public void LoadPicker(PickerDelegate pDelegate)
+	{
 		picker = Instantiate (pickerObject);
 		picker.GetComponent<PickerHandler> ().pickerDelegate = this;
 		picker.transform.SetParent (canvas.transform);
 		picker.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
+		pickerDelegate = pDelegate;
 	}
 
-	public void EndBattle(bool won) {
+	public void EndBattle(bool won)
+	{
 		endBattle = Instantiate (endBattlePrefab);
 		endBattle.transform.SetParent (canvas.transform);
 		endBattle.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, 0);
 		endBattle.GetComponent<EndBattleHandler>().SetWon(won);
 	}
 
-	void PickerDelegate.MonPicked(Karaimon mon) {
+	void PickerDelegate.MonPicked(Karaimon mon)
+	{
 		Destroy (picker);
-		((PickerDelegate)controller).MonPicked (mon);
+		pickerDelegate.MonPicked (mon);
 	}
 
-	public void RefreshMoves(PlayerMon mon) {
+	public void RefreshMoves(PlayerMon mon)
+	{
 		attack1.gameObject.SetActive(false);
 		attack2.gameObject.SetActive(false);
 		attack3.gameObject.SetActive(false);
@@ -119,19 +123,23 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		}
 	}
 
-	public void AddLog(string text) {
+	public void AddLog(string text)
+	{
 		log.text = string.Format ("{0}\n{1}", log.text, text);
 	}
 
-	public void AddMessage(Message message) {
+	public void AddMessage(Message message)
+	{
 		messageQueue.Add (message);
 	}
 
-	public void ShowMessages() {
+	public void ShowMessages()
+	{
 		StartCoroutine ("ShowMessagesRoutine");
 	}
 	
-	IEnumerator ShowMessagesRoutine() {
+	IEnumerator ShowMessagesRoutine()
+	{
 		List<Message> messageTemp = new List<Message>();
 		messageTemp.AddRange (messageQueue);
 		messageQueue.Clear ();
@@ -156,7 +164,8 @@ public class BattleUIController : MonoBehaviour, PickerDelegate {
 		AfterShowMessage ();
 	}
 
-	public void AfterShowMessage() {
+	public void AfterShowMessage()
+	{
 		if (controller.shouldEndBattle) {
 			controller.EndBattle();
 			return;

@@ -49,6 +49,9 @@
      <Compile Include="Assets\Scripts\Battle\BattleMaster.cs" />
      <Compile Include="Assets\Scripts\Battle\BattleUIController.cs" />
      <Compile Include="Assets\Scripts\Battle\EndBattleHandler.cs" />
+     <Compile Include="Assets\Scripts\Battle\NewBattle\BattleController.cs" />
+     <Compile Include="Assets\Scripts\Battle\NewBattle\GameMaster.cs" />
+     <Compile Include="Assets\Scripts\Battle\NewBattle\Rules.cs" />
      <Compile Include="Assets\Scripts\Battle\PickerHandler.cs" />
      <Compile Include="Assets\Scripts\Battle\RulesController.cs" />
      <Compile Include="Assets\Scripts\Models\DBObject.cs" />
@@ -56,8 +59,10 @@
      <Compile Include="Assets\Scripts\Models\IEnums.cs" />
      <Compile Include="Assets\Scripts\Models\Karaimon.cs" />
      <Compile Include="Assets\Scripts\Models\Message.cs" />
+     <Compile Include="Assets\Scripts\Models\MoveActions.cs" />
      <Compile Include="Assets\Scripts\Models\Moves.cs" />
      <Compile Include="Assets\Scripts\Models\PlayerMon.cs" />
+     <Compile Include="Assets\Scripts\Models\Status.cs" />
      <Compile Include="Assets\Scripts\Models\WildMon.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\DataHolder.cs" />
      <Compile Include="Assets\Scripts\SQL\Scripts\LoomManager.cs" />

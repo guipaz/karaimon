@@ -1,17 +1,20 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Battle\BattleMaster.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Models\Moves.cs">
     <Files>
-      <File FileName="Assets\Scripts\Battle\BattleMaster.cs" Line="173" Column="21" />
-      <File FileName="Assets\Scripts\Battle\BattleUIController.cs" Line="99" Column="1" />
-      <File FileName="Assets\Scripts\Models\PlayerMon.cs" Line="16" Column="1" />
-      <File FileName="Assets\Scripts\Models\WildMon.cs" Line="44" Column="17" />
-      <File FileName="Assets\Scripts\Models\Moves.cs" Line="24" Column="14" />
+      <File FileName="Assets\Scripts\SQL\Scripts\MonSQLite.cs" Line="160" Column="15" />
+      <File FileName="Assets\Scripts\Models\MoveActions.cs" Line="3" Column="1" />
+      <File FileName="Assets\Scripts\Battle\BattleMaster.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\IEnums.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Battle\BattleUIController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\PlayerMon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\WildMon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Models\Moves.cs" Line="70" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="F:\GameDev\Karaimon\Unity\Assets\Scripts\Battle\BattleUIController.cs" line="95" />
+      <Breakpoint file="F:\GameDev\Karaimon\Unity\Assets\Scripts\Models\Moves.cs" line="70" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

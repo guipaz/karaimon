@@ -7,6 +7,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 
 	// Main control
 	public BattleUIController GUI;
+	public int startingLevel = 5;
 	PlayerMon player;
 	WildMon enemy;
 
@@ -25,7 +26,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 	// Flow Control
 	void Start() {
 		DataHolder.LoadData ();
-		GUI.LoadPicker();
+		GUI.LoadPicker(this);
 	}
 
 	public void RestartBattle(bool playerWon) {
@@ -43,7 +44,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 			((PickerDelegate)this).MonPicked (null);
 			return;
 		} else {
-			GUI.LoadPicker();
+			GUI.LoadPicker(this);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 		shouldRunPlayerTurn = false;
 		
 		if (playerWon) {
-			int experience = RulesController.CalculateExperience(enemy.GetExperienceGiven());
+			int experience = RulesController.CalculateExperience(enemy.GetExperienceGiven(), enemy.level);
 			bool leveled = player.AddExperience(experience);
 			GUI.AddMessage(new Message(player.GetName() + " gained " +
 			                             experience + " experience!", IEnums.MessageType.Generic));
@@ -171,10 +172,10 @@ public class BattleMaster : MonoBehaviour, PickerDelegate {
 
 	void PickerDelegate.MonPicked(Karaimon mon) {
 		if (mon != null)
-			player = new PlayerMon(mon);
+			player = new PlayerMon(mon, startingLevel);
 
 		Karaimon enemyMon = DataHolder.mons[new System.Random ().Next (0, DataHolder.mons.Count - 1)];
-		enemy = new WildMon(enemyMon);
+		enemy = new WildMon(enemyMon, player.level);
 
 		GUI.RefreshMoves (player);
 

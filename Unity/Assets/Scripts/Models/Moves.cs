@@ -67,7 +67,7 @@ public class MoveSheet : DBObject {
 	}
 
 	public MonMove this[int i] {
-		get { return moves[i]; }
+		get { return i <= Count() ? moves[i] : null; }
 		set { moves [i] = value; }
 	}
 

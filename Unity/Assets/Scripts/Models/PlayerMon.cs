@@ -12,9 +12,7 @@ public class PlayerMon : WildMon {
 	public int totalEvSpDefense { get; set; }
 	public int totalEvSpeed { get; set; }
 
-	public PlayerMon(Karaimon baseMon) : base(baseMon) {
-
-	}
+	public PlayerMon(Karaimon baseMon, int startingLevel) : base(baseMon, startingLevel) { }
 
 	public bool AddExperience(int exp) {
 		experience += exp;
@@ -23,14 +21,14 @@ public class PlayerMon : WildMon {
 		if (leveledUp) {
 			level++;
 			CalculateStats ();
-			CheckMoves();
+			CheckMoves(true);
 		}
 
 		return leveledUp;
 	}
 
-	public void CalculateStats() {
-		hp = RulesController.CalculateHP (ivHp, hp, totalEvHp, level);
+	public override void CalculateStats() {
+		hp = RulesController.CalculateHP (ivHp, baseMon.hp, totalEvHp, level);
 		attack = RulesController.CalculateStat (ivAttack, baseMon.attack, totalEvAttack, level);
 		defense = RulesController.CalculateStat (ivDefense, baseMon.defense, totalEvDefense, level);
 		spAttack = RulesController.CalculateStat (ivSpAttack, baseMon.spAttack, totalEvSpAttack, level);

@@ -1,9 +1,11 @@
 using System;
-using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-public class RulesController
+public class Rules
 {
-	public static int CalculateHP(int iv, int baseHp, int ev, int level) {
+	public static int CalculateHP(int iv, int baseHp, int ev, int level)
+	{
 		float a = 2f * baseHp;
 		float b = ev / 4f;
 		float c = (float)iv + a + b + 100;
@@ -12,7 +14,8 @@ public class RulesController
 		return (int)Math.Floor(finalHp);
 	}
 
-	public static int CalculateStat(int iv, int baseStat, int ev, int level) {
+	public static int CalculateStat(int iv, int baseStat, int ev, int level)
+	{
 		float a = 2f * baseStat;
 		float b = ev / 4f;
 		float c = (float)iv + a + b;
@@ -22,7 +25,8 @@ public class RulesController
 		return (int)Math.Round(finalStat);
 	}
 
-	public static int CalculateDamage(MonMove attack, WildMon attacker, WildMon defender) {
+	public static int CalculateDamage(MonMove attack, WildMon attacker, WildMon defender)
+	{
 		int attackStat = 0;
 		int defenseStat = 1;
 
@@ -55,7 +59,8 @@ public class RulesController
 		return (int) Math.Floor(damage);
 	}
 
-	private static float CalculateElementalQuotient(MonMove attack, WildMon defender) {
+	private static float CalculateElementalQuotient(MonMove attack, WildMon defender)
+	{
 		switch (GetEffectiveness(attack, defender)) {
 		case 1:
 			return 2;
@@ -78,7 +83,8 @@ public class RulesController
 	 * 2 - Very Effective
 	 * 3 - No Effect
 	 */
-	public static int GetEffectiveness(MonMove attack, WildMon defender) {
+	public static int GetEffectiveness(MonMove attack, WildMon defender)
+	{
         Element attackerElement = attack.element;
 
 		int effectiveness1 = attackerElement.GetEffectiveness (defender.GetElement1 ().id);
@@ -105,13 +111,15 @@ public class RulesController
 		return effectiveness;
 	}
 
-	public static int CalculateExperience(int baseExp, int level) {
+	public static int CalculateExperience(int baseExp, int level)
+	{
 		//TODO: calculate other variables
 		float exp = baseExp * level / 7f;
 		return (int)Math.Round(exp);
 	}
 
-	public static bool CalculateLevelUp(int currentLevel, int currentExperience) {
+	public static bool CalculateLevelUp(int currentLevel, int currentExperience)
+	{
 		//TODO: implement other groups
 		if (currentLevel == 100)
 			return false;
@@ -125,4 +133,3 @@ public class RulesController
 		return currentExperience >= exp;
 	}
 }
-

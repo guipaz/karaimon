@@ -23,18 +23,22 @@ Karaimon v0.04
 - Cada Karaimon possui os valores que aumenta a cada nível
 
 Karaimon v0.05
-- Refatoração
-- Aplicação dos atributos reais de Pokémon
-- Adição de todos os tipos
-- Karaimon pode ter mais de um tipo
-- Definida proporção de experiência e aumento de atributos por nível
-- Tela inicial com opções de novo jogo (apagar anterior) e carregar jogo
-- Adição de 50 mons
+X Refatoração
+X Aplicação dos atributos reais de Pokémon
+X Adição de todos os tipos
+X Karaimon pode ter mais de um tipo
+X Definida proporção de experiência e aumento de atributos por nível
+X Adição de 20 mons
+X Mon inimigo tem o mesmo nível do jogador
+X Ataques são adquiridos por nível
 
 Karaimon v.06
 - Adição dos sprites de cada Karaimon
 - Adicionar gráficos para UI
 - Sistema de log alterado para o estilo Pokémon
+- Status
+- Evolução
+- Tela inicial com opções de novo jogo (apagar anterior) e carregar jogo
 
 Karaimon v1.0
 - Escolha de uma equipe de 3 karaimons

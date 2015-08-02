@@ -39,13 +39,26 @@ public class WildMon {
 		this.baseMon = baseMon;
 		moves = new MoveSheet ();
 		this.level = level;
-		CheckMoves ();
+		GenerateIV ();
+		CheckMoves (false);
 		CalculateStats ();
+		ResetCurrent();
 	}
 
-	protected void CheckMoves() {
+	protected void GenerateIV() {
+		System.Random r = new System.Random();
+		ivHp = r.Next(0, 31);
+		ivAttack = r.Next (0, 31);
+		ivDefense = r.Next (0, 31);
+		ivSpAttack = r.Next (0, 31);
+		ivSpDefense = r.Next (0, 31);
+		ivSpeed = r.Next (0, 31);
+	}
+
+	protected void CheckMoves(bool levelOnly) {
 		foreach (MonMove move in baseMon.moves) {
-			if (move.levelAcquired == level) {
+			if ((levelOnly && move.levelAcquired == level) ||
+			    (!levelOnly && move.levelAcquired <= level)) {
 				MonMove m = move.Clone();
 				m.ResetPP();
 				moves.AddMove(m);
@@ -74,8 +87,8 @@ public class WildMon {
 		return IsAlive();
 	}
 
-	public void CalculateStats() {
-		hp = RulesController.CalculateHP (ivHp, hp, 0, level);
+	public virtual void CalculateStats() {
+		hp = RulesController.CalculateHP (ivHp, baseMon.hp, 0, level);
 		attack = RulesController.CalculateStat (ivAttack, baseMon.attack, 0, level);
 		defense = RulesController.CalculateStat (ivDefense, baseMon.defense, 0, level);
 		spAttack = RulesController.CalculateStat (ivSpAttack, baseMon.spAttack, 0, level);
